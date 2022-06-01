@@ -9807,11 +9807,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kelly.valdes\\Documents\\UnoSquare\\CodeTest\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\ToysAngGamesStoreAPI.csproj",
+      "projectUniqueName": "C:\\Users\\kelly.valdes\\Documents\\GitHub\\CodeChallengeNetAngular\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\ToysAngGamesStoreAPI.csproj",
       "projectName": "ToysAngGamesStoreAPI",
-      "projectPath": "C:\\Users\\kelly.valdes\\Documents\\UnoSquare\\CodeTest\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\ToysAngGamesStoreAPI.csproj",
+      "projectPath": "C:\\Users\\kelly.valdes\\Documents\\GitHub\\CodeChallengeNetAngular\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\ToysAngGamesStoreAPI.csproj",
       "packagesPath": "C:\\Users\\kelly.valdes\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kelly.valdes\\Documents\\UnoSquare\\CodeTest\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\obj\\",
+      "outputPath": "C:\\Users\\kelly.valdes\\Documents\\GitHub\\CodeChallengeNetAngular\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kelly.valdes\\AppData\\Roaming\\NuGet\\NuGet.Config",

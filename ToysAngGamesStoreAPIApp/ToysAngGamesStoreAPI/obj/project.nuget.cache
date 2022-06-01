@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4VnbWdRESSgN84Q9lzgZ+lRbJVe8OMty0nWtl6HWKy7gwUvMO8/uwVKl2pCVYGlbuOuYMt8+Im/4kt54qY5lGw==",
+  "dgSpecHash": "1cEp1ntS5NAt1+NKvUEWCebD/3niVwmBlRDMgpvDJxUVkqS5yixD062g1Zf81203QtipRC9fchj7F6RPWLsvVw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kelly.valdes\\Documents\\UnoSquare\\CodeTest\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\ToysAngGamesStoreAPI.csproj",
+  "projectFilePath": "C:\\Users\\kelly.valdes\\Documents\\GitHub\\CodeChallengeNetAngular\\ToysAngGamesStoreAPIApp\\ToysAngGamesStoreAPI\\ToysAngGamesStoreAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kelly.valdes\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\kelly.valdes\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
