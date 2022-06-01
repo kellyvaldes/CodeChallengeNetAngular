@@ -1,0 +1,87 @@
+  
+  <!-- <p>Formulario Template</p> 
+  <form>
+    <div class="mb-3">
+      <label for="id" *ngIf="product.id!=0" class="form-label">Id</label>
+      <input type="text" class="form-control" name="id" [(ngModel)]="id" *ngIf="product.id!=0" disabled>     
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" [(ngModel)]="name" name="name"> 
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input type="text" class="form-control" [(ngModel)]="price" name="price">
+    </div>
+    
+    <div class="mb-3">
+      <label for="company" class="form-label">company</label>
+      <input type="text" class="form-control" [(ngModel)]="company" name="company"> 
+    </div>
+
+    <div class="mb-3">
+      <label for="ageRestriction" class="form-label">Maximun Age</label>
+      <input type="text" class="form-control" [(ngModel)]="ageRestriction" name="ageRestriction">
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input type="text" class="form-control" [(ngModel)]="description" name="description"> 
+    </div>
+
+    <button (click)="addProduct()" *ngIf="product.id==0" class="btn btn-primary">
+      Add
+    </button>
+    <button (click)="updateProduct()" *ngIf="product.id!=0" class="btn btn-primary">
+      Update
+    </button>
+  </form>
+   -->
+
+
+
+
+<p>Formulario Reactivo</p> 
+<form [formGroup]="addEditProductForm">
+  <div class="mb-3">
+    <label for="id" *ngIf="product.id!=0" class="form-label">Id</label>
+    <input id="id" class="form-control" type="text" formControlName="id" *ngIf="product.id!=0" readonly>     
+  </div>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input id="name" class="form-control" type="text" formControlName="name"> 
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Price</label>
+    <input id="price" class="form-control" type="text" formControlName="price">
+  </div>
+  
+  <div class="mb-3">
+    <label for="company" class="form-label">company</label>
+    <input id="company" class="form-control" type="text" formControlName="company"> 
+  </div>
+
+  <div class="mb-3">
+    <label for="ageRestriction" class="form-label">Maximun Age</label>
+    <input id="ageRestriction" class="form-control" type="text" formControlName="ageRestriction">
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <input id="description" class="form-control" type="text" formControlName="description"> 
+  </div>
+
+  <button (click)="addProduct()" *ngIf="product.id==0" class="btn btn-primary">Add</button>
+  <button (click)="updateProduct()" *ngIf="product.id!=0" class="btn btn-primary">Update</button>
+
+  <p>Form Status: {{ addEditProductForm.status }}</p>
+
+
+</form>
+
+
+
+
+
