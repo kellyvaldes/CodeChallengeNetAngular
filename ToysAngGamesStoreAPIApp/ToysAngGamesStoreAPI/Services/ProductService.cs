@@ -39,7 +39,7 @@ namespace ToysAngGamesStoreAPI.Models
                 Price = product.Price,
             };
             _context.Add(item);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void Update(int id, Product product)

@@ -8,16 +8,16 @@ namespace ToysAngGamesStoreAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductService _productRepository;
-        public ProductsController(IProductService productRepository) {
-            _productRepository = productRepository;
+        private readonly IProductService _productService;
+        public ProductsController(IProductService productService) {
+            _productService = productService;
         }
 
         // GET: api/Products
         [HttpGet]
         public IActionResult GetProducts()
         {
-            var products = _productRepository.GetAll();
+            var products = _productService.GetAll();
             return Ok(products);
         }
 
@@ -25,7 +25,7 @@ namespace ToysAngGamesStoreAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProductsById(int id)
         {
-            var product = _productRepository.Get(id);
+            var product = _productService.Get(id);
             if (product == null)
             {
                 return NotFound();
@@ -37,7 +37,7 @@ namespace ToysAngGamesStoreAPI.Controllers
         [HttpPost]
         public IActionResult PostProduct(ProductDTO product)
         {
-            _productRepository.Add(product);
+            _productService.Add(product);
             return Ok(new { message = "Product created" });
         }
 
@@ -45,12 +45,12 @@ namespace ToysAngGamesStoreAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult PutProduct(int id, Product product)
         {
-            var productExists = _productRepository.Get(id);
+            var productExists = _productService.Get(id);
             if (productExists == null)
             {
                 return NotFound();
             }
-            _productRepository.Update(id, product);
+            _productService.Update(id, product);
             return Ok(new { message = "Product updated" });
         }
 
@@ -58,12 +58,12 @@ namespace ToysAngGamesStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
-            var productExists = _productRepository.Get(id);
+            var productExists = _productService.Get(id);
             if (productExists == null)
             {
                 return NotFound();
             }
-            _productRepository.Delete(id, productExists);
+            _productService.Delete(id, productExists);
             return Ok(new { message = "Product deleted" });
         }
 
