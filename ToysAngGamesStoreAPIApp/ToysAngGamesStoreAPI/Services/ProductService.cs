@@ -14,15 +14,13 @@ namespace ToysAngGamesStoreAPI.Models
             _context = context;
         }
 
-        // GET: api/Products
-        [HttpGet()]
+        
         public IEnumerable<Product> GetAll()
         {
             return _context.Products.ToList();
         }
 
-        // GET: api/Product/id
-        [HttpGet("{id}")]
+        
         public Product? Get(int id)
         {
             return getProduct(id);
