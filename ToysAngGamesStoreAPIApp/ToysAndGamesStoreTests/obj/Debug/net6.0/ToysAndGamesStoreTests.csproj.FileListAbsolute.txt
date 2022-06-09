@@ -350,3 +350,4 @@ C:\Users\kelly.valdes\Documents\GitHub\CodeChallengeNetAngular\ToysAngGamesStore
 C:\Users\kelly.valdes\Documents\GitHub\CodeChallengeNetAngular\ToysAngGamesStoreAPIApp\ToysAndGamesStoreTests\obj\Debug\net6.0\ToysAndGamesStoreTests.genruntimeconfig.cache
 C:\Users\kelly.valdes\Documents\GitHub\CodeChallengeNetAngular\ToysAngGamesStoreAPIApp\ToysAndGamesStoreTests\obj\Debug\net6.0\ref\ToysAndGamesStoreTests.dll
 C:\Users\kelly.valdes\Documents\GitHub\CodeChallengeNetAngular\ToysAngGamesStoreAPIApp\ToysAndGamesStoreTests\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\kelly.valdes\Documents\GitHub\CodeChallengeNetAngular\ToysAngGamesStoreAPIApp\ToysAndGamesStoreTests\bin\Debug\net6.0\AutoMapper.dll
