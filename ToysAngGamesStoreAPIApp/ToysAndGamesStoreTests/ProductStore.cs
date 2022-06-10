@@ -21,14 +21,6 @@ namespace ToysAndGamesStoreTests
             };
         }
 
-        /*public static Product SearchProduct()
-        {
-            return new Product
-            {
-                Id= 1, Name = "Producto 1", Company = "Producto 1", AgeRestriction = 10, Description = "Producto 1", Price = 500
-            };
-        }*/
-
         public static IEnumerable<object[]> Data =>
         new List<object[]>
         {
