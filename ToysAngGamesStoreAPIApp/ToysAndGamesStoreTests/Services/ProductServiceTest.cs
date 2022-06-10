@@ -1,17 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
 using ToysAngGamesStoreAPI.Data;
 using ToysAngGamesStoreAPI.Models;
 using Xunit;
-using Microsoft.EntityFrameworkCore.InMemory;
-using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections;
-using System.Web.Http.Results;
-using AutoMapper;
-using EntityFramework.Testing;
 
 namespace ToysAndGamesStoreTests
 {  
@@ -19,37 +11,37 @@ namespace ToysAndGamesStoreTests
     public class ProductServiceTest
     {
         ProductContext? productContext;
+        Mock<ProductContext> mockContext = new();
+        ProductService? productService;
+        readonly List<Product> products = ProductStore.SearchListProduct();
 
+        //Get Products
         [Theory]
         [InlineData(5)]
         public void GetAllProducts_returns_allExistentProduct(int expected)
         {
             // Arrange
             SetupMocks();
-            var service = new ProductService(productContext);
 
             // Act
-            var products = service.GetAll();
+            var products = productService.GetAll();
 
             // Assert
             Assert.Equal(expected, products.Count());
             Assert.IsAssignableFrom<IEnumerable<Product>>(products);
         }
 
+        //Get Product with no null results
         [Theory]
         [MemberData(nameof(ProductStore.Data), MemberType = typeof(ProductStore))]
         public void GetProductById_Returns_NotNullResult(int id, int expected)
         {
-            // Arrange
-            var mockProductService = new Mock<IProductService>();
+            // Arrange            
+            SetupMocks();
 
-            mockProductService.Setup(p=>p.Get(It.IsAny<int>()))
-                .Returns(new Product()
-                {
-                    Id = id
-                });
-
-            var productService = mockProductService.Object;
+            mockContext
+                .Setup(s => s.Products.Find(id))
+                .Returns(products.Single(s => s.Id == id));           
 
             // Act
             var productResult = productService.Get(id);
@@ -60,20 +52,18 @@ namespace ToysAndGamesStoreTests
             Assert.Equal(expected, productResult?.Id);
         }
 
-
+        //Get Product with null results
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        [InlineData(4)]
         public void GetProductById_Returns_NullResult(int id)
         {
-            // Arrange
-            var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(p => p.Get(It.IsAny<int>()))
+            // Arrange         
+            SetupMocks();           
+            mockContext
+                .Setup(s => s.Products.Find(id))
                 .Returns(It.IsAny<Product>());
-
-            var productService = mockProductService.Object;
 
             // Act
             var product = productService.Get(id);
@@ -82,145 +72,110 @@ namespace ToysAndGamesStoreTests
             Assert.Null(product);            
         }
 
+        //Add        
+        [Theory]
+        [InlineData(1, "TEST")]
+        public void AddProduct_Successfully(int id, string name)
+        {
+            // Arrange
+            SetupMocks();
 
-        //Add
+            mockContext
+                .Setup(m => m.Products.Add(It.IsAny<Product>()))
+                .Callback<Product>((entity) => products.Add(entity));
 
+            var product = new ProductDTO
+            {
+                Id = id,
+                Name = name
+            };
+            
+            mockContext
+                .Setup(s => s.Products.Find(It.IsAny<int>()))
+                .Returns(new Product
+                {
+                    Id = id,
+                    Name = name
+                });
 
+            // Act
+            productService.Add(product);
+            var getProduct = productService.Get(id);
+
+            // Assert
+
+            Assert.Equal(name, getProduct.Name);
+            mockContext.Verify(x => x.SaveChanges(), Times.Once);
+        }
 
         //Update
         [Theory]
         [InlineData(1, "TEST")]
-        public void UpdateProduct_Returns_Ok(int id, string name)
+        public void UpdateProduct_Successfully(int id, string name)
         {
             // Arrange
-            var mockProductService = new Mock<IProductService>();
+            SetupMocks();
 
-            mockProductService.Setup(p => p.Get(It.IsAny<int>()))
-                .Returns(new Product { 
-                        Id = id,
-                        Name = name
-                    });
+            mockContext
+                .Setup(s => s.Products.Find(It.IsAny<int>()))
+                .Returns(new Product
+                {
+                    Id = id,
+                    Name = name
+                });          
 
-            var productService = mockProductService.Object;
-
-            var product = productService.Get(1);
+            // Act
+            var product = productService.Get(id);
             product.Name = "TEST UPDATE";
-            productService.Update(1, product);
-            var productSaved = productService.Get(1);
+            productService.Update(id, product);
+            var productSaved = productService.Get(id);
 
+            // Assert
             Assert.NotNull(product);
             Assert.NotNull(productSaved);
             Assert.Equal(product.Name, productSaved.Name);
             Assert.Equal("TEST UPDATE", productSaved.Name);
         }
 
-
-
-
         //Remove
-
-
-
-        internal void SetupMocks()
+        [Theory]
+        [InlineData(1)]
+        public void DeleteProduct_Successfully(int id)
         {
-            var mockContext = new Mock<ProductContext>();
-            mockContext.Setup(p => p.Products).Returns(DbContextMock.GetQueryableMockDbSet<Product>(ProductStore.SearchListProduct()));
-            productContext = mockContext.Object;
+            // Arrange            
+            SetupMocks();
+            
+            var remainingProducts = products.Count - 1;
+            mockContext
+                .Setup(m => m.Products.Remove(It.IsAny<Product>()))
+                .Callback<Product>((entity) => products.Remove(entity));
+
+            mockContext
+                .Setup(s => s.Products.Find(id))
+                .Returns(products.Single(s => s.Id == id));
+
+            // Act
+            productService.Delete(id);
+
+            // Assert            
+            Assert.Equal(products.Count, remainingProducts);
+
+            mockContext.Verify(s => s.Products.Find(id), Times.Once);
+            mockContext.Verify(s => s.Products.Remove(It.IsAny<Product>()), Times.Once);
+            mockContext.Verify(s => s.SaveChanges(), Times.Once);
         }
 
+        //Setup Mocks
+        internal void SetupMocks()
+        {
+            mockContext = new Mock<ProductContext>();           
+            mockContext.
+                Setup(p => p.Products).
+                Returns(DbContextMock.GetQueryableMockDbSet<Product>(products));
+            productContext = mockContext.Object;
+            productService = new ProductService(productContext);
+        }
         
     }
 
-
-
-
-
-
-
-
-    /* public class ProductServiceTest
-     {
-         Mock<ProductContext> mockContext = new();
-         private ProductService? service;
-
-         private void SetupMocks()
-         {          
-             // 2. Setup the returnables
-             mockContext.Setup(c => c.Products).Returns(GetQueryableMockDbSet(
-                SearchData()
-                 ));         
-
-             service = new ProductService(mockContext.Object);
-         }
-
-         [Fact]        
-         public void GetAllProducts_returns_allExistentProduct()
-         {
-             // Arrange
-             SetupMocks();
-
-             // Act
-             var products = service.GetAll();
-
-             // Assert
-             Assert.Equal(5, products.Count());
-             Assert.IsAssignableFrom<IEnumerable<Product>>(products);
-         }
-
-         [Theory]
-         [InlineData(1, 1)]
-         public void GetById_returns_correctResult(int input, int expected)
-         {
-             // Arrange
-             SetupMocks();
-
-             // Act
-             var result = service.Get(input);
-
-             // Assert
-             Assert.IsType<Product>(result);
-             Assert.Equal(expected, result?.Id);
-         }
-
-         [Fact]
-         public void GetById_UnknownGuidPassed_ReturnsNotFoundResult()
-         {  
-             // Arrange
-             var service = new ProductService(mockContext.Object);
-             // Act
-             var notFoundResult = service.Get(0);
-             // Assert
-             Assert.IsType<NotFoundResult>(notFoundResult);
-         }
-
-
-
-         private static DbSet<T> GetQueryableMockDbSet<T>(params T[] sourceList) where T : class
-         {
-             var queryable = sourceList.AsQueryable();
-
-             var dbSet = new Mock<DbSet<T>>();
-             dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-             dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-             dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-             dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-             return dbSet.Object;
-         }
-
-         private static Product[] SearchData()
-         {
-             return new Product[]
-             {
-                 new Product { Id= 1, Name = "Producto 1" },
-                 new Product { Id= 2, Name = "Producto 2" },
-                 new Product { Id= 3, Name = "Producto 3" },
-                 new Product { Id= 4, Name = "Producto 4" },
-                 new Product { Id= 5, Name = "Producto 5" }
-             };
-         }
-
-     }
-
-     */
 }

@@ -63,7 +63,7 @@ namespace ToysAngGamesStoreAPI.Controllers
             {
                 return NotFound();
             }
-            _productService.Delete(id, productExists);
+            _productService.Delete(id);
             return Ok(new { message = "Product deleted" });
         }
 

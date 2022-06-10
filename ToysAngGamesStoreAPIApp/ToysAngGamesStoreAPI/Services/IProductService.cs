@@ -6,6 +6,6 @@
         Product? Get(int id);
         void Add(ProductDTO product);
         void Update(int id, Product product);
-        void Delete(int id, Product product);
+        void Delete(int id);
     }
 }

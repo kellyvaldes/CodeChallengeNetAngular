@@ -23,7 +23,7 @@ namespace ToysAngGamesStoreAPI.Models
         
         public Product? Get(int id)
         {
-            return getProduct(id);
+            return GetProduct(id);
         }
 
         public void Add(ProductDTO product)
@@ -46,13 +46,18 @@ namespace ToysAngGamesStoreAPI.Models
             _context.SaveChanges();
         }
 
-        public void Delete(int id, Product product)
+        public void Delete(int id)
         {
-            _context.Products.Remove(product);
-            _context.SaveChanges();
+            var objToDelete = _context.Products.Find(id);
+
+            if (objToDelete != null)
+            {
+                _context.Products.Remove(objToDelete);
+                _context.SaveChanges();
+            }
         }
 
-        private Product? getProduct(int id)
+        private Product? GetProduct(int id)
         {
             return _context.Products.Find(id);
         }
