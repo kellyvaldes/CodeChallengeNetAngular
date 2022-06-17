@@ -79,6 +79,7 @@ namespace ToysAndGamesStoreTests
         {
             // Arrange
             SetupMocks();
+            int initCountProducts = products.Count;
 
             mockContext
                 .Setup(m => m.Products.Add(It.IsAny<Product>()))
@@ -106,6 +107,9 @@ namespace ToysAndGamesStoreTests
 
             Assert.Equal(name, getProduct.Name);
             mockContext.Verify(x => x.SaveChanges(), Times.Once);
+            //Validar
+            //Assert.Equal(initCountProducts + 1, mockContext.Object.Products.Count());
+
         }
 
         //Update
@@ -135,6 +139,11 @@ namespace ToysAndGamesStoreTests
             Assert.NotNull(productSaved);
             Assert.Equal(product.Name, productSaved.Name);
             Assert.Equal("TEST UPDATE", productSaved.Name);
+            //Verify
+
+            mockContext.Verify(s => s.Products.Find(id), Times.Exactly(2));
+            mockContext.Verify(s => s.Products.Update(It.Is<Product>(p => p.Id == id)), Times.Once);
+
         }
 
         //Remove
@@ -161,7 +170,7 @@ namespace ToysAndGamesStoreTests
             Assert.Equal(products.Count, remainingProducts);
 
             mockContext.Verify(s => s.Products.Find(id), Times.Once);
-            mockContext.Verify(s => s.Products.Remove(It.IsAny<Product>()), Times.Once);
+            mockContext.Verify(s => s.Products.Remove(It.Is<Product>(p => p.Id == id)), Times.Once);
             mockContext.Verify(s => s.SaveChanges(), Times.Once);
         }
 
